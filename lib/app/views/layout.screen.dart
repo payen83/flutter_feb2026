@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feb2026/app/views/home.screen.dart';
 
 class LayoutScreen extends StatelessWidget {
   const LayoutScreen({super.key});
@@ -9,6 +10,16 @@ class LayoutScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter Layout Demo'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, 
+              MaterialPageRoute(builder: (context) 
+              => MyHomePage(title: 'Kelas Programming'))
+            );
+          }, 
+            icon: Icon(Icons.calculate_outlined),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,48 +58,9 @@ class LayoutScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.call, color: Colors.blue,),
-                      Text('Call', 
-                        style: TextStyle(
-                          fontSize: 12, 
-                          fontWeight: FontWeight.w400,
-                          color: Colors.blue
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.near_me, color: Colors.blue,),
-                      Text('Route', 
-                        style: TextStyle(
-                          fontSize: 12, 
-                          fontWeight: FontWeight.w400,
-                          color: Colors.blue
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.share, color: Colors.blue,),
-                      Text('Share', 
-                        style: TextStyle(
-                          fontSize: 12, 
-                          fontWeight: FontWeight.w400,
-                          color: Colors.blue
-                        ),
-                      ),
-                    ],
-                  )
+                  IconWithText(icon: Icons.call, label: 'CALL',),
+                  IconWithText(icon: Icons.near_me, label: 'ROUTE',),
+                  IconWithText(icon: Icons.share, label: 'SHARE',),
                 ],
               ),
             ),
@@ -99,6 +71,35 @@ class LayoutScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class IconWithText extends StatelessWidget {
+  const IconWithText({
+    super.key,
+    required this.icon,
+    required this.label
+  });
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: Colors.blue,),
+        Text(label, 
+          style: TextStyle(
+            fontSize: 12, 
+            fontWeight: FontWeight.w400,
+            color: Colors.blue
+          ),
+        ),
+      ],
     );
   }
 }
