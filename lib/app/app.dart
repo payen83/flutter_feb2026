@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_feb2026/app/views/home.screen.dart';
-import 'package:flutter_feb2026/app/views/layout.screen.dart';
+import 'package:flutter_feb2026/app/widgets/navigationbar.widget.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LayoutScreen()
+      home: Navigationbar()
     );
   }
 }
