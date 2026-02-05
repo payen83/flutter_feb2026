@@ -5,10 +5,12 @@ class EditContactScreen extends StatefulWidget {
     super.key, 
     required this.onEditContact, 
     required this.contact,
-    required this.contactIndex
+    required this.contactIndex,
+    required this.onDeleteContact
   });
 
   final Function(int, Map<String, dynamic>) onEditContact;
+  final Function(int) onDeleteContact;
   final Map<String, dynamic> contact;
   final int contactIndex;
 
@@ -39,6 +41,41 @@ class _EditContactScreenState extends State<EditContactScreen> {
     }
   }
 
+  void showDeleteConfirmation(){
+    showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Contact'),
+          content: Text('Are you sure you want to delete ${widget.contact['name']}?'),
+          actions: [
+            TextButton(
+              onPressed: () { Navigator.of(context).pop(); }, 
+              child: Text('Cancel')
+            ),
+            TextButton(
+              onPressed: () { 
+                Navigator.of(context).pop(); 
+                deleteContact();
+              }, 
+              child: Text('Delete', style: TextStyle(color: Colors.red),)
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+  void deleteContact(){
+    widget.onDeleteContact(widget.contactIndex);
+    viewSnackbar('${widget.contact['name']} deleted successfully');
+    Navigator.of(context).pop();
+  }
+
+  void viewSnackbar(String message){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +92,7 @@ class _EditContactScreenState extends State<EditContactScreen> {
             children: [
               TextFormField(
                 controller: nameController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: 'Name',
                   hintText: 'Enter contact name',
@@ -65,6 +103,7 @@ class _EditContactScreenState extends State<EditContactScreen> {
               SizedBox(height: 8),
               TextFormField(
                 controller: phoneController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   labelText: 'Phone',
                   hintText: 'Enter phone number',
@@ -82,7 +121,13 @@ class _EditContactScreenState extends State<EditContactScreen> {
                   foregroundColor: Colors.white
                 ),
                 child: Text('Save Contact')
-              )              
+              ),
+              SizedBox(height: 8),
+              TextButton(
+                onPressed: (){ showDeleteConfirmation(); }, 
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: Text('Delete Contact')
+              )           
             ],
           )
         ),
