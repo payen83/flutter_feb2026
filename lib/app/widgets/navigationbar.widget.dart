@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feb2026/app/views/camera.screen.dart';
 import 'package:flutter_feb2026/app/views/contacts.screen.dart';
 import 'package:flutter_feb2026/app/views/layout.screen.dart';
 
@@ -16,7 +17,8 @@ class _NavigationbarState extends State<Navigationbar> {
     return Scaffold(
       body: [
         const LayoutScreen(),
-        const ContactsScreen()
+        const ContactsScreen(),
+        const CameraScreen()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
@@ -34,6 +36,10 @@ class _NavigationbarState extends State<Navigationbar> {
           NavigationDestination(
             icon: Icon(Icons.person, color: Colors.white,), 
             label: 'Contacts'
+          ),
+           NavigationDestination(
+            icon: Icon(Icons.photo_camera, color: Colors.white,), 
+            label: 'Camera'
           ),
         ]
       ),
