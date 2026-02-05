@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feb2026/app/views/add_contacts.screen.dart';
 import 'package:flutter_feb2026/app/views/edit_contacts.screen.dart';
+import 'package:flutter_feb2026/app/services/sharedprefs.service.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key});
@@ -11,40 +13,56 @@ class ContactsScreen extends StatefulWidget {
 
 class _ContactsScreenState extends State<ContactsScreen> {
 
-  final List<Map<String,dynamic>> contacts = [
-    {
-      'name': 'Ali bin Abu',
-      'phone': '0192334453',
-      'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
-    },
-    {
-      'name': 'Wong Siu Mei',
-      'phone': '0192334497',
-      'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
-    },
-    {
-      'name': 'Muthu a/l Samy',
-      'phone': '01732321933',
-      'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
-    }
+  List<Map<String,dynamic>> contacts = [
+    // {
+    //   'name': 'Ali bin Abu',
+    //   'phone': '0192334453',
+    //   'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
+    // },
+    // {
+    //   'name': 'Wong Siu Mei',
+    //   'phone': '0192334497',
+    //   'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
+    // },
+    // {
+    //   'name': 'Muthu a/l Samy',
+    //   'phone': '01732321933',
+    //   'imageURL': 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png',
+    // }
   ];
 
-  void addNewContact(Map<String,dynamic> contactData){
+  @override
+  void initState(){
+    super.initState();
+    loadContacts();
+  }
+
+  Future<void> loadContacts() async {
+    final loadedContacts = await SharedPrefs.loadData('contacts');
+    setState(() {
+      contacts = loadedContacts;
+    });
+  }
+
+  void addNewContact(Map<String,dynamic> contactData) async{
     setState(() {
       contacts.add(contactData);
     });
+    await SharedPrefs.saveData('contacts', contacts);
   }
 
-  void editContact(int index, Map<String,dynamic> contactData){
+  void editContact(int index, Map<String,dynamic> contactData) async{
     setState(() {
       contacts[index] = contactData;
     });
+    await SharedPrefs.saveData('contacts', contacts);
   }
 
-  void deleteContact(int index){
+  void deleteContact(int index) async{
     setState(() {
       contacts.removeAt(index);
     });
+    await SharedPrefs.saveData('contacts', contacts);
   }
 
   @override
