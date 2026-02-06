@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feb2026/app/views/camera.screen.dart';
 import 'package:flutter_feb2026/app/views/contacts.screen.dart';
 import 'package:flutter_feb2026/app/views/layout.screen.dart';
+import 'package:flutter_feb2026/app/views/products.screen.dart';
 
 class Navigationbar extends StatefulWidget {
   const Navigationbar({super.key});
@@ -18,7 +19,8 @@ class _NavigationbarState extends State<Navigationbar> {
       body: [
         const LayoutScreen(),
         const ContactsScreen(),
-        const CameraScreen()
+        const CameraScreen(),
+        const ProductsScreen()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
@@ -40,6 +42,10 @@ class _NavigationbarState extends State<Navigationbar> {
            NavigationDestination(
             icon: Icon(Icons.photo_camera, color: Colors.white,), 
             label: 'Camera'
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_bag, color: Colors.white,), 
+            label: 'Products'
           ),
         ]
       ),

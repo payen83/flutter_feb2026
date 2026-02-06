@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -8,6 +10,8 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
+  File? imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +22,9 @@ class _CameraScreenState extends State<CameraScreen> {
       body: Column(
         children: [
           //image
-          Image.asset('assets/images/lake.jpg',
+          imageFile != null ?
+          Image.file(imageFile!, fit: BoxFit.cover,)
+          : Image.asset('assets/images/lake.jpg',
               width: 600,
               height: 240,
               fit: BoxFit.cover,
@@ -26,7 +32,15 @@ class _CameraScreenState extends State<CameraScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ElevatedButton(
-              onPressed: (){}, 
+              onPressed: () async{
+                final ImagePicker picker = ImagePicker();
+                final XFile? camera = await picker.pickImage(source: ImageSource.camera);
+                if(camera != null){
+                  setState(() {
+                    imageFile = File(camera.path);
+                  });
+                }
+              }, 
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white, 
                 backgroundColor: Colors.indigo,
