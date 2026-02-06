@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_feb2026/app/services/api.services.dart';
+import 'package:flutter_feb2026/app/views/add_product.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -29,6 +30,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
       }
     } catch(e){
       log('Error in getting products');
+    }
+  }
+
+  void addProduct(dynamic productData) async {
+    try {
+      var result = await api.postHttp('/products', productData);
+      if(result != null){
+        setState(() {
+          productList.insert(0, result);
+        });
+      }
+    } catch(e){
+      log('Error ${e.toString()}');
     }
   }
 
@@ -78,6 +92,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             )
           ],
         )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => AddProduct(onAddProduct: addProduct,))
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
